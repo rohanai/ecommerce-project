@@ -8,30 +8,43 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: ''
+        publicPath: '/'
     },
     devtool: 'cheap-module-eval-source-map',
     module: {
         rules: [{
                 test: /\.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.s[ac]ss$/i,
+                // loader: 'babel-loader',
+                exclude: /node_modules/,
                 use: [
+                    {loader: 'babel-loader'},
+                 ]
+            },
+            // {
+            //     test: /\.s[ac]ss$/i,
+            //     use: [
+            //         'style-loader',
+            //         'css-loader',
+            //         {
+            //             loader: 'css-loader',
+            //         },
+            //     ],
+            // },
+            {
+                test: /\.css$/,
+                loaders: [
                     'style-loader',
                     'css-loader',
-                    {
-                        loader: 'sass-loader',
-                    },
-                ],
+                ]
             },
             {
                 test: /\.(png|jpe?g|gif)$/,
                 loader: 'url-loader?limit=8000&name=images/[name].[ext]'
             }
         ]
+    },
+    devServer: {
+        historyApiFallback: true
     },
     plugins: [
         new HtmlWebpackPlugin({
