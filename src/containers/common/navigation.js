@@ -7,7 +7,7 @@ import {logout} from '../../store/actions/loginRegisterAction';
 class Navigation extends Component {
     constructor (props) {
         super(props);
-        this._logout = this.logout.bind(this);
+        this._logout = this._logout.bind(this);
     }
 
     render () {
