@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route} from 'react-router-dom'
 import {createBrowserHistory } from 'history'
 
-import {Home} from './containers/Home'
-import {Login} from './containers/Login'
-import {Register} from './containers/Register'
-import {Dashboard} from './components/Dashboard'
+import Home from './containers/Home'
+import Login from './containers/Login'
+import Register from './containers/Register'
+import Dashboard from './components/Dashboard'
 import {NotFound} from './components/NotFound'
 
 function checkAuth (nextState, replace) {
@@ -34,7 +34,7 @@ class App extends Component {
     render () {
         return (
         <Router history={createBrowserHistory()}>
-              <Route path='/' component={Home} />
+              <Route exact path='/' component={Home} />
               <Route onEnter={checkAuth}>
                 <Route path='/login' component={Login} />
                 <Route path='/register' component={Register} />
