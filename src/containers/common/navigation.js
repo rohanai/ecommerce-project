@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {logout} from '../../store/actions/loginRegisterAction';
@@ -7,7 +7,7 @@ import {logout} from '../../store/actions/loginRegisterAction';
 class Navigation extends Component {
     constructor (props) {
         super(props);
-        this._logout = this.logout.bind(this);
+        this._logout = this._logout.bind(this);
     }
 
     render () {
