@@ -1,18 +1,21 @@
 let users
-let localStorage
+let sessionStorage
 
-localStorage = global.window.localStorage
+  sessionStorage = global.window.sessionStorage
+
 
 const server = {
   init () {
-    if (localStorage.users === undefined) {
-      const juan = 'test'
+    if (sessionStorage.users === undefined) {
+      const juan = 'juan'
+
       users = {
-        juan
+        [juan]: 'password'
       }
-      localStorage.users = JSON.stringify(users)
+
+      sessionStorage.users = users
     } else {
-      users = JSON.parse(localStorage.users)
+      users = JSON.parse(sessionStorage.users)
     }
   },
 
@@ -20,10 +23,9 @@ const server = {
     const userExists = this.doesUserExist(username)
 
     return new Promise((resolve, reject) => {
-      
-      if (userExists) {
+      if (userExists && password == sessionStorage.users[username]) {
+        sessionStorage.loggedIn = true;
         resolve({
-          authenticated: true,
           token: Math.random().toString(36).substring(7)
         })
       } else {
@@ -42,9 +44,9 @@ const server = {
 
   register (username, password) {
     return new Promise((resolve, reject) => {
-
       if (!this.doesUserExist(username)) {
-        localStorage.users = JSON.stringify(users)
+        users[username] = password
+        sessionStorage.setItem("users", JSON.stringify(users));
         resolve({registered: true})
       } else {
         reject(new Error('Username already in use'))
@@ -54,13 +56,14 @@ const server = {
 
   logout () {
     return new Promise(resolve => {
-      localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('loggedIn')
       resolve(true)
     })
   },
 
   doesUserExist (username) {
-    return !(users[username] === undefined)
+    return !(sessionStorage.users[username] === undefined)
   }
 }
 

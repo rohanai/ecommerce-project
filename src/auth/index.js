@@ -1,8 +1,8 @@
 import request from './fakeRequest'
 
-let localStorage
+let sessionStorage
 
-localStorage = global.window.localStorage;
+sessionStorage = global.window.sessionStorage;
 
 const auth = {
   login (username, password) {
@@ -10,7 +10,7 @@ const auth = {
 
     return request.post('/login', {username, password})
       .then(response => {
-        localStorage.token = response.token
+        sessionStorage.token = response.token
         return Promise.resolve(true)
       })
   },
@@ -20,7 +20,7 @@ const auth = {
   },
 
   loggedIn () {
-    return !!localStorage.token
+    return !!sessionStorage.token
   },
 
   register (username, password) {
