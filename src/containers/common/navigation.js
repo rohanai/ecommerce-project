@@ -4,19 +4,20 @@ import PropTypes from 'prop-types';
 
 import {logout} from '../../store/actions/loginRegisterAction';
 
+const sessionStorage = global.window.sessionStorage;
+
 class Navigation extends Component {
     constructor (props) {
         super(props);
         this._logout = this._logout.bind(this);
     }
+    loggedIn = sessionStorage.getItem('loggedIn');
 
     render () {
-        const navButtons = this.props.loggedIn ? (
+        const navButtons = this.loggedIn ? (
             <div>
                 <Link to='/dashboard' className='btn btn-default'>Dashboard</Link>
-                {
-                    <a href='#' className='btn btn-primary' onClick={this._logout}>Logout</a>
-                }
+                <a href='#' className='btn btn-primary' onClick={this._logout}>Logout</a>
             </div>
         ) : (
             <div>

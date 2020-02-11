@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route} from 'react-router-dom'
+import { Router, Route} from 'react-router-dom'
 import {createBrowserHistory } from 'history'
+import { connect } from 'react-redux';
+import Store from './index';
 
 import Home from './containers/Home'
 import Login from './containers/Login'
 import Register from './containers/Register'
 import Dashboard from './components/Dashboard'
-import {NotFound} from './components/NotFound'
+// import NotFound from './components/NotFound'
+let sessionStorage = global.window.sessionStorage
 
 function checkAuth (nextState, replace) {
-    const {loggedIn} = store.getState()
+    const {loggedIn} = sessionStorage.getItem('loggedIn');
   
     if (nextState.location.pathname !== '/dashboard') {
       if (loggedIn) {
@@ -34,7 +37,7 @@ class App extends Component {
     render () {
         return (
         <Router history={createBrowserHistory()}>
-              <Route exact path='/' component={Home} />
+              <Route path='/' component={Home} />
               <Route onEnter={checkAuth}>
                 <Route path='/login' component={Login} />
                 <Route path='/register' component={Register} />
@@ -46,4 +49,10 @@ class App extends Component {
     }
 }
 
-export default App;
+function select (state) {
+  return {
+      data: state
+  }
+}
+
+export default connect(select)(App);
